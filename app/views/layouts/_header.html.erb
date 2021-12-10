@@ -3,7 +3,8 @@
     <p class="navbar-brand">Twitter Stats</p>
     <nav>
       <ul class="nav navbar-nav navbar-right">
-      <li><%= link_to "Log in", '#' %></li>
+      <li><%= link_to "Log in", '/auth/auth0', method: :post %></li>
+      <li><%= link_to "Log out", 'auth/logout', method: :get %></li>
       </ul>
     </nav>
   </div>
