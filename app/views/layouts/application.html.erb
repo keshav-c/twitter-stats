@@ -11,17 +11,7 @@
   </head>
 
   <body>
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <p class="navbar-brand">Twitter Stats</p>
-        <nav>
-          <ul class="nav navbar-nav navbar-right">
-          <li><%= link_to "Log in", '#' %></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    
+    <%= render 'layouts/header' %>
     <div class="container">
       <%= yield %>
     </div>
