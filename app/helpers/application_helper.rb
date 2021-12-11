@@ -9,6 +9,6 @@ module ApplicationHelper
   end
 
   def logged_in?
-    session[:userinfo].present?
+    session[:data].present?
   end
 end

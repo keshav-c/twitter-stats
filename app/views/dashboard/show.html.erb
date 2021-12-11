@@ -2,18 +2,24 @@
   <div class="panel panel-primary">
     <div class="panel-heading">User information</div>
     <div class="panel-body">
-      <p>Here follow the user <%= @user['name'] %>'s details</p>
-    <table class="table">
-      <tr>
-        <th>Name</th>
-        <th>Nickname</th>
-        <th>Id</th>
+      <p>Here follow the user <%= @user[:name] %>'s details</p>
+      <table class="table">
+        <tr>
+          <th>Handle</th>
+          <th>Name</th>
+          <th>Id</th>
+          <th>Tweets</th>
+          <th>Followers</th>
+          <th>Following</th>
+        </tr>
+        <tr>
+        <td><%= @user[:username] %></td>
+        <td><%= @user[:name] %></td>
+        <td><%= @user[:twitter_id] %></td>
+        <td><%= @user[:tweet_count] %></td>
+        <td><%= @user[:followers_count] %></td>
+        <td><%= @user[:following_count] %></td>
       </tr>
-      <tr>
-        <td><%= @user['name'] %></td>
-        <td><%= @user['nick'] %></td>
-        <td><%= @user['userid'] %></td>
-      </tr>
-    </table>
+      </table>
   </div>
 </div>

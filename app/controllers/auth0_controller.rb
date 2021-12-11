@@ -1,18 +1,10 @@
 class Auth0Controller < ApplicationController
   def callback
-    # OmniAuth stores the info returned from Auth0 and the IdP in request.env['omniauth.auth'].
-    # In this code, pull the raw_info supplied from the id_token and assign it to the session.
-    # Refer to https://github.com/auth0/omniauth-auth0#authentication-hash for complete information on 'omniauth.auth' contents.
     auth_info = request.env['omniauth.auth']
     raw_info = auth_info['extra']['raw_info']
-    user = {
-      name: raw_info[:name],
-      nick: raw_info[:nickname],
-      userid: /\|(?<id>.*)$/.match(raw_info[:sub])[:id]
-    }
-    session[:userinfo] = user
+    userid = /\|(?<id>.*)$/.match(raw_info[:sub])[:id]
+    session[:data] = { userid: userid }
 
-    # Redirect to the URL you want after successful auth
     redirect_to dashboard_url
   end
 
