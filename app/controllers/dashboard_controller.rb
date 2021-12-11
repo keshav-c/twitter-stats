@@ -2,7 +2,13 @@ class DashboardController < ApplicationController
   include Secured
 
   def show
+    # symbol keys become strings on redirect
     @user = get_userinfo(session['data']['userid'])
+
+    app_user = User.find_or_create_by!(
+      handle: @user[:username],
+      twitterid: @user[:twitter_id]
+    )
   end
 
   private 
