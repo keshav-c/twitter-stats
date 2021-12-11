@@ -7,4 +7,8 @@ module ApplicationHelper
       [base, suffix].join(' | ')
     end
   end
+
+  def logged_in?
+    session[:userinfo].present?
+  end
 end

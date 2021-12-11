@@ -1,4 +1,19 @@
 <div class="jumbotron">
-  <h3>User Profile</h3>
-  <p><%= JSON.pretty_generate(@user)%></p>
+  <div class="panel panel-primary">
+    <div class="panel-heading">User information</div>
+    <div class="panel-body">
+      <p>Here follow the user <%= @user['name'] %>'s details</p>
+    <table class="table">
+      <tr>
+        <th>Name</th>
+        <th>Nickname</th>
+        <th>Id</th>
+      </tr>
+      <tr>
+        <td><%= @user['name'] %></td>
+        <td><%= @user['nick'] %></td>
+        <td><%= @user['userid'] %></td>
+      </tr>
+    </table>
+  </div>
 </div>

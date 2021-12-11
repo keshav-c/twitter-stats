@@ -4,11 +4,16 @@ class Auth0Controller < ApplicationController
     # In this code, pull the raw_info supplied from the id_token and assign it to the session.
     # Refer to https://github.com/auth0/omniauth-auth0#authentication-hash for complete information on 'omniauth.auth' contents.
     auth_info = request.env['omniauth.auth']
-    session[:userinfo] = auth_info['extra']['raw_info']
-    p auth_info
+    raw_info = auth_info['extra']['raw_info']
+    user = {
+      name: raw_info[:name],
+      nick: raw_info[:nickname],
+      userid: /\|(?<id>.*)$/.match(raw_info[:sub])[:id]
+    }
+    session[:userinfo] = user
 
     # Redirect to the URL you want after successful auth
-    redirect_to root_url
+    redirect_to dashboard_url
   end
 
   def failure
