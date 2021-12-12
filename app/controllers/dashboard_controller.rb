@@ -6,13 +6,21 @@ class DashboardController < ApplicationController
     userid = session['data']['userid']
     @user = get_userinfo(userid)
 
-    if !User.exists? (twitterid: userid)
+    if !User.exists?(twitterid: userid)
       user = User.create!(
         handle: @user[:username],
-        twitterid: @user[:twitter_id]
+        twitterid: userid
       )
-      followers = get_followers(userid)
+      user.followers << get_followers(userid).map do |f|
+        Follower
+          .create_with(handle: f[:handle])
+          .find_or_create_by(twitterid: f[:twitterid])
+      end
+      # puts "yeah found it"
+    else
+      # Do nothing
     end
+
   end
 
   private 
