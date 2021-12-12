@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   get '/auth/logout', to: 'auth0#logout'
 
   get '/dashboard', to: 'dashboard#show'
+  put '/dashboard', to: 'dashboard#update'
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_12_055037) do
+ActiveRecord::Schema.define(version: 2021_12_12_132825) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2021_12_12_055037) do
     t.string "twitterid"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "enable_report", default: true
     t.index ["handle"], name: "index_users_on_handle", unique: true
     t.index ["twitterid"], name: "index_users_on_twitterid", unique: true
   end

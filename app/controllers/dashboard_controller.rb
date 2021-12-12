@@ -4,23 +4,32 @@ class DashboardController < ApplicationController
   def show
     # symbol keys become strings on redirect
     userid = session['data']['userid']
+    # Not an ActiveRecord because stats refreshed from API not in record
     @user = get_userinfo(userid)
-
-    if !User.exists?(twitterid: userid)
-      user = User.create!(
+    user_record = nil
+    if User.exists?(twitterid: userid)
+      user_record = User.find_by! twitterid: userid
+    else
+      user_record = User.create!(
         handle: @user[:username],
         twitterid: userid
       )
-      user.followers << get_followers(userid).map do |f|
+      user_record.followers << get_followers(userid).map do |f|
         Follower
           .create_with(handle: f[:handle])
           .find_or_create_by(twitterid: f[:twitterid])
       end
-      # puts "yeah found it"
-    else
-      # Do nothing
     end
+    @user[:enable_report] = user_record[:enable_report]
+  end
 
+  def update
+    userid = session['data']['userid']
+    user = User.find_by! twitterid: userid
+    enable_report = params[:enable] == "true"
+    user.update!(enable_report: enable_report)
+    # over-riding redirect status, results in hanging at some info page!
+    redirect_to dashboard_url
   end
 
   private 

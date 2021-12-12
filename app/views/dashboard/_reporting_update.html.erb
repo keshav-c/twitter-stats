@@ -1,0 +1,9 @@
+<% if @user[:enable_report] %>
+  <%= button_to "Disable Reports",
+      { action: "update" },
+      { method: :put, params: { enable: false } } %>
+<% else %>
+  <%= button_to "Enable Reports",
+      { action: "update" },
+      { method: :put, params: { enable: true } } %>
+<% end %>
