@@ -4,4 +4,8 @@ class Follower < ApplicationRecord
 
   has_and_belongs_to_many :users
   has_and_belongs_to_many :reports
+
+  def equal?(other)
+    (twitterid == other.twitterid) && (handle == other.handle)
+  end
 end

@@ -1,4 +1,8 @@
+require 'sidekiq/web'
+require 'sidekiq/cron/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
   root "pages#home"
   
   get '/auth/auth0/callback', to: 'auth0#callback'

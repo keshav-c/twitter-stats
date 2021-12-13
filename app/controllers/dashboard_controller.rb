@@ -14,11 +14,15 @@ class DashboardController < ApplicationController
         handle: @user[:username],
         twitterid: userid
       )
-      user_record.followers << user_record.get_followers.map do |f|
-        Follower
-          .create_with(handle: f[:handle])
-          .find_or_create_by(twitterid: f[:twitterid])
-      end
+      # job to get followers for new user
+      GetFollowersWorker.perform_async(userid)
+
+      Sidekiq::Cron::Job.create(
+        name: "report-#{userid}",
+        class: 'CreateReportWorker',
+        cron: '0 0 * * SUN',
+        args: { twitterid: userid }
+      )
     end
     @user[:enable_report] = user_record[:enable_report]
   end

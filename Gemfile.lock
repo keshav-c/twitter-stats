@@ -83,10 +83,13 @@ GEM
       xpath (~> 3.2)
     childprocess (4.1.0)
     concurrent-ruby (1.1.9)
+    connection_pool (2.2.5)
     crass (1.0.6)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.10.0)
+    et-orbi (1.2.6)
+      tzinfo
     execjs (2.8.1)
     faraday (1.8.0)
       faraday-em_http (~> 1.0)
@@ -111,6 +114,9 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    fugit (1.5.2)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.4)
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
@@ -175,6 +181,7 @@ GEM
     public_suffix (4.0.6)
     puma (5.5.2)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.3)
     rack-mini-profiler (2.3.3)
@@ -215,6 +222,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redis (4.5.1)
     regexp_parser (2.2.0)
     rexml (3.2.5)
     ruby2_keywords (0.0.5)
@@ -234,6 +242,13 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sidekiq (6.3.1)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.2.0)
+    sidekiq-cron (1.2.0)
+      fugit (~> 1.1)
+      sidekiq (>= 4.2.1)
     spring (3.1.1)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -292,6 +307,8 @@ DEPENDENCIES
   rails (~> 6.1.4, >= 6.1.4.1)
   sass-rails (>= 6)
   selenium-webdriver
+  sidekiq
+  sidekiq-cron (~> 1.1)
   spring
   turbolinks (~> 5)
   tzinfo-data

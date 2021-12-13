@@ -28,11 +28,19 @@ gem 'jbuilder', '~> 2.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+# For frontend styling
 gem 'bootstrap-sass'
+
+# For Auth0
 gem 'omniauth-auth0', '~> 3.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0' # prevents forged authentication requests
 
+# For calls to the Twitter API
 gem 'http'
+
+# For generating weekly reports
+gem "sidekiq"
+gem "sidekiq-cron", '~> 1.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
