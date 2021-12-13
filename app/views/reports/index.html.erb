@@ -1,0 +1,20 @@
+<div class="jumbotron">
+  <div class="panel panel-success">
+    <div class="panel-heading">Unfollow reports for @<%= @user.handle %></div>
+    <div class="panel-body">
+      <table class="table">
+        <tr>
+          <th>Date</th>
+        </tr>
+        <% if @reports.to_a.length == 0 %>
+          <td>No reports available...</td>
+        <% else %>
+          <% @reports.each do |report| %>
+            <tr>
+              <td><%= link_to report.date, report  %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+  </div>
+</div>

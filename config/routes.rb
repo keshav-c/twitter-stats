@@ -11,4 +11,7 @@ Rails.application.routes.draw do
 
   get '/dashboard', to: 'dashboard#show'
   put '/dashboard', to: 'dashboard#update'
+
+  get '/reports', to: 'reports#index'
+  get '/reports/:id', to: 'reports#show', as: 'report'
 end

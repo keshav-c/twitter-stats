@@ -1,0 +1,24 @@
+<div class="jumbotron">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      On the week ending <%= @report.date %></div>
+    <div class="panel-body">
+      <% if @report.total == 0 %>
+        No one unfollowed you this week.
+      <% else %>
+        <%= pluralize(@report.total, 'account') %> unfollowed you this week.
+        <table class="table">
+          <tr>
+            <th>Username</th>
+            <th>Profile</th>
+          </tr>
+          <% @report.followers.each do |f| %>
+            <tr>
+              <td><%= f.handle %></td>
+              <td><a target="_blank" href=<%= twitter_link(f.handle) %>>Profile</a></td>
+            </tr>
+            <% end %>
+          <% end %>
+        </table>
+  </div>
+</div>
