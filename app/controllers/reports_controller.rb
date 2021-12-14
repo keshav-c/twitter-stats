@@ -8,6 +8,12 @@ class ReportsController < ApplicationController
   end
 
   def show
-    @report = Report.find(params[:id])
+    userid = session['data']['userid']
+    user = User.find_by! twitterid: userid
+    if user.reports.exists?(params[:id])
+      @report = Report.find(params[:id])
+    else
+      redirect_to reports_url
+    end
   end
 end
