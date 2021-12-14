@@ -8,13 +8,13 @@ class User < ApplicationRecord
   def generate_unfollow_report
     return unless enable_report
 
-    # fetched current followers from API, map to new Follower to use equal?
-    fetched = get_followers.map(&:Follower.new)
+    # # fetched current followers from API
+    fetched = get_followers
     # retrieve followers for user from db
     old = followers.to_a
     unfollowed = []
     old.each do |old_f|
-      i = fetched.find_index { |fetched_f| old_f.equal?(fetched_f) }
+      i = fetched.find_index { |f| old_f.duplicate_attrs?(f) }
       if i.nil?
         unfollowed << old_f
       else
@@ -30,7 +30,7 @@ class User < ApplicationRecord
     followers.destroy(unfollowed)
     # create the weekly report
     report = reports.create!(date: Date.today, total: unfollowed.length)
-    report << unfollowed
+    report.followers << unfollowed
   end
 
   def load_followers
