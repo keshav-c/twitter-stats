@@ -23,8 +23,7 @@ class User < ApplicationRecord
     end
     # the remaining fetched are new followers over the week
     fetched.each do |new_follower|
-      new_follower.save!
-      followers << new_follower
+      followers.create! new_follower
     end
     # delete the unfollowed associations
     followers.destroy(unfollowed)
