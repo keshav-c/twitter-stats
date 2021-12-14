@@ -1,9 +1,9 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  handle: MyString
-  twitterid: MyString
+# one:
+#   handle: MyString
+#   twitterid: MyString
 
-two:
-  handle: MyString
-  twitterid: MyString
+# two:
+#   handle: MyString
+#   twitterid: MyString
