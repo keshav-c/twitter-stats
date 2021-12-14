@@ -34,11 +34,10 @@ class User < ApplicationRecord
   end
 
   def load_followers
-    followers << get_followers.map do |f|
-      Follower
-        .create_with(handle: f[:handle])
-        .find_or_create_by(twitterid: f[:twitterid])
+    new_followers = get_followers.filter do |f|
+      !(followers.exists?(twitterid: f[:twitterid]))
     end
+    followers.create(new_followers)
   end
 
   def get_followers
