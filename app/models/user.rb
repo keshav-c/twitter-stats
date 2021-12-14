@@ -5,12 +5,13 @@ class User < ApplicationRecord
   has_and_belongs_to_many :followers
   has_many :reports, -> { order "date DESC" }
 
+  # This is run by a sidekiq-cron worker to create an unfollow
+  # report for the user
   def generate_unfollow_report
     return unless enable_report
 
-    # # fetched current followers from API
-    fetched = get_followers
-    # retrieve followers for user from db
+    fetched = get_followers()
+    # retrieve followers (supposedly from last week)
     old = followers.to_a
     unfollowed = []
     old.each do |old_f|
@@ -22,9 +23,7 @@ class User < ApplicationRecord
       end
     end
     # the remaining fetched are new followers over the week
-    fetched.each do |new_follower|
-      followers.create! new_follower
-    end
+    fetched.each { |nu_f| create_or_associate_follower(nu_f) }
     # delete the unfollowed associations
     followers.destroy(unfollowed)
     # create the weekly report
@@ -32,13 +31,14 @@ class User < ApplicationRecord
     report.followers << unfollowed
   end
 
+  # This is run by a worker the first time a User is created. It
+  # populates the DB with Followers and creates associations.
   def load_followers
-    new_followers = get_followers.filter do |f|
-      !(followers.exists?(twitterid: f[:twitterid]))
-    end
-    followers.create(new_followers)
+    get_followers.each { |f| create_or_associate_follower(f) }
   end
 
+  # This fetches the current followers of the User from the
+  # Twitter API 
   def get_followers
     url = "https://api.twitter.com/2/users/#{twitterid}/followers"
     header = "Bearer #{ENV['TWITTER_STATS_BEARER']}"
@@ -53,5 +53,17 @@ class User < ApplicationRecord
       params[:pagination_token] = next_token
     end
     followers.map! { |f| { twitterid: f['id'], handle: f['username'] } }
+  end
+
+  # expects attributes - twitterid and handle
+  def create_or_associate_follower(attrs)
+    f_record = Follower.find_by twitterid: attrs[:twitterid]
+    if f_record 
+      unless followers.include?(f_record)
+        followers << f_record
+      end
+    else
+      followers.create!(attrs)
+    end
   end
 end
